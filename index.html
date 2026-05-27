@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ideal Gas Law Explorer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="intro" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">Gas laws visual map</p>
+          <h1 id="page-title">Ideal Gas Law Explorer</h1>
+        </div>
+        <div class="state-summary" aria-live="polite">
+          <span id="balanceStatus" class="status-pill">Balanced</span>
+          <span><strong>PV</strong> = <b id="pvValue">0.00</b></span>
+          <span><strong>nRT</strong> = <b id="nrtValue">0.00</b></span>
+        </div>
+      </section>
+
+      <section class="workspace-grid" aria-label="Interactive gas law workspace">
+        <section class="panel controls-panel" aria-labelledby="controls-title">
+          <div class="section-heading">
+            <p class="eyebrow">Inputs</p>
+            <h2 id="controls-title">Set a Gas State</h2>
+          </div>
+
+          <label class="solve-row" for="solveFor">
+            <span>Solve for</span>
+            <select id="solveFor">
+              <option value="P">Pressure, P</option>
+              <option value="V">Volume, V</option>
+              <option value="n">Moles, n</option>
+              <option value="T">Temperature, T</option>
+            </select>
+          </label>
+
+          <div class="slider-stack">
+            <label class="variable-control pressure">
+              <span class="control-top">
+                <span><b>P</b> Pressure</span>
+                <span><output id="POut">1.00</output> atm</span>
+              </span>
+              <input id="PInput" type="range" min="0.2" max="6" value="1" step="0.01" />
+            </label>
+
+            <label class="variable-control volume">
+              <span class="control-top">
+                <span><b>V</b> Volume</span>
+                <span><output id="VOut">24.47</output> L</span>
+              </span>
+              <input id="VInput" type="range" min="1" max="80" value="24.47" step="0.01" />
+            </label>
+
+            <label class="variable-control amount">
+              <span class="control-top">
+                <span><b>n</b> Amount</span>
+                <span><output id="nOut">1.00</output> mol</span>
+              </span>
+              <input id="nInput" type="range" min="0.1" max="5" value="1" step="0.01" />
+            </label>
+
+            <label class="variable-control temperature">
+              <span class="control-top">
+                <span><b>T</b> Temperature</span>
+                <span><output id="TOut">298.15</output> K</span>
+              </span>
+              <input id="TInput" type="range" min="150" max="650" value="298.15" step="0.01" />
+            </label>
+          </div>
+
+          <div class="calculation-box">
+            <p class="mini-title">Substitution</p>
+            <p id="substitutionText">P = nRT / V</p>
+            <p id="resultText">P = 1.00 atm</p>
+          </div>
+        </section>
+
+        <section class="map-panel" aria-labelledby="map-title">
+          <div class="section-heading">
+            <p class="eyebrow">Spatial connection</p>
+            <h2 id="map-title">How the Laws Fit Together</h2>
+          </div>
+
+          <div class="law-map">
+            <svg class="connector-layer" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+              <line class="connector pressure" x1="50" y1="50" x2="18" y2="19" />
+              <line class="connector volume" x1="50" y1="50" x2="82" y2="19" />
+              <line class="connector temperature" x1="50" y1="50" x2="18" y2="82" />
+              <line class="connector amount" x1="50" y1="50" x2="82" y2="82" />
+            </svg>
+
+            <article class="law-node boyle">
+              <span class="law-tag pressure">Boyle's Law</span>
+              <div class="equation"><span class="p-token">P</span><span class="v-token">V</span> = k</div>
+              <p>For fixed <span class="n-token">n</span> and <span class="t-token">T</span>, pressure and volume move in opposite directions.</p>
+            </article>
+
+            <article class="law-node charles">
+              <span class="law-tag volume">Charles' Law</span>
+              <div class="equation"><span class="v-token">V</span>/<span class="t-token">T</span> = k</div>
+              <p>For fixed <span class="p-token">P</span> and <span class="n-token">n</span>, volume follows absolute temperature.</p>
+            </article>
+
+            <article class="law-node ideal">
+              <span class="law-tag ideal">Ideal Gas Law</span>
+              <div class="equation"><span class="p-token">P</span><span class="v-token">V</span> = <span class="n-token">n</span>R<span class="t-token">T</span></div>
+              <p>One equation connects all four state variables using the gas constant R.</p>
+            </article>
+
+            <article class="law-node gay">
+              <span class="law-tag temperature">Gay-Lussac's Law</span>
+              <div class="equation"><span class="p-token">P</span>/<span class="t-token">T</span> = k</div>
+              <p>For fixed <span class="v-token">V</span> and <span class="n-token">n</span>, pressure follows absolute temperature.</p>
+            </article>
+
+            <article class="law-node avogadro">
+              <span class="law-tag amount">Avogadro's Law</span>
+              <div class="equation"><span class="v-token">V</span>/<span class="n-token">n</span> = k</div>
+              <p>For fixed <span class="p-token">P</span> and <span class="t-token">T</span>, volume follows the number of moles.</p>
+            </article>
+          </div>
+        </section>
+      </section>
+
+      <section class="law-effects" aria-labelledby="effects-title">
+        <div class="section-heading">
+          <p class="eyebrow">Cause and effect</p>
+          <h2 id="effects-title">Change One Parameter</h2>
+        </div>
+
+        <label class="factor-control" for="factorInput">
+          <span>
+            Change factor:
+            <strong><output id="factorOut">2.00</output>&times;</strong>
+          </span>
+          <input id="factorInput" type="range" min="0.25" max="4" value="2" step="0.05" />
+        </label>
+
+        <div class="effect-grid">
+          <article class="effect-card boyle-effect">
+            <h3>Boyle</h3>
+            <p class="math-line">P<sub>1</sub>V<sub>1</sub> = P<sub>2</sub>V<sub>2</sub></p>
+            <p id="boyleEffect">If V becomes 2.00x, P becomes 0.50x.</p>
+          </article>
+          <article class="effect-card charles-effect">
+            <h3>Charles</h3>
+            <p class="math-line">V<sub>1</sub>/T<sub>1</sub> = V<sub>2</sub>/T<sub>2</sub></p>
+            <p id="charlesEffect">If T becomes 2.00x, V becomes 2.00x.</p>
+          </article>
+          <article class="effect-card gay-effect">
+            <h3>Gay-Lussac</h3>
+            <p class="math-line">P<sub>1</sub>/T<sub>1</sub> = P<sub>2</sub>/T<sub>2</sub></p>
+            <p id="gayEffect">If T becomes 2.00x, P becomes 2.00x.</p>
+          </article>
+          <article class="effect-card avogadro-effect">
+            <h3>Avogadro</h3>
+            <p class="math-line">V<sub>1</sub>/n<sub>1</sub> = V<sub>2</sub>/n<sub>2</sub></p>
+            <p id="avogadroEffect">If n becomes 2.00x, V becomes 2.00x.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="derivation" aria-labelledby="derivation-title">
+        <div class="section-heading">
+          <p class="eyebrow">Derivation</p>
+          <h2 id="derivation-title">From Simple Laws to PV = nRT</h2>
+        </div>
+
+        <div class="steps">
+          <article class="step-card">
+            <span>1</span>
+            <p>Boyle: <strong><span class="v-token">V</span> &prop; 1/<span class="p-token">P</span></strong> when <span class="n-token">n</span> and <span class="t-token">T</span> are constant.</p>
+          </article>
+          <article class="step-card">
+            <span>2</span>
+            <p>Charles: <strong><span class="v-token">V</span> &prop; <span class="t-token">T</span></strong> when <span class="p-token">P</span> and <span class="n-token">n</span> are constant.</p>
+          </article>
+          <article class="step-card">
+            <span>3</span>
+            <p>Avogadro: <strong><span class="v-token">V</span> &prop; <span class="n-token">n</span></strong> when <span class="p-token">P</span> and <span class="t-token">T</span> are constant.</p>
+          </article>
+          <article class="step-card combined">
+            <span>4</span>
+            <p>Combine the proportionalities: <strong><span class="v-token">V</span> &prop; <span class="n-token">n</span><span class="t-token">T</span>/<span class="p-token">P</span></strong>.</p>
+          </article>
+          <article class="step-card combined">
+            <span>5</span>
+            <p>Multiply by pressure: <strong><span class="p-token">P</span><span class="v-token">V</span> &prop; <span class="n-token">n</span><span class="t-token">T</span></strong>.</p>
+          </article>
+          <article class="step-card final-step">
+            <span>6</span>
+            <p>Replace proportionality with the gas constant R: <strong><span class="p-token">P</span><span class="v-token">V</span> = <span class="n-token">n</span>R<span class="t-token">T</span></strong>.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

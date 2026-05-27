@@ -1,0 +1,556 @@
+:root {
+  --ink: #1d2630;
+  --muted: #657386;
+  --paper: #fbfaf7;
+  --panel: #ffffff;
+  --line: #d8dee7;
+  --pressure: #c3423f;
+  --volume: #247b7b;
+  --temperature: #d88728;
+  --amount: #4d66c4;
+  --ideal: #263238;
+  --shadow: 0 14px 38px rgba(32, 45, 61, 0.11);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    linear-gradient(90deg, rgba(36, 123, 123, 0.08) 1px, transparent 1px),
+    linear-gradient(rgba(195, 66, 63, 0.07) 1px, transparent 1px),
+    var(--paper);
+  background-size: 38px 38px;
+  color: var(--ink);
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  line-height: 1.5;
+}
+
+.app-shell {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 28px 0 36px;
+}
+
+.intro {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 22px;
+}
+
+.eyebrow {
+  margin: 0 0 4px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 0;
+  font-size: clamp(2rem, 5vw, 4.25rem);
+  line-height: 0.98;
+  letter-spacing: 0;
+}
+
+h2 {
+  margin-bottom: 0;
+  font-size: 1.15rem;
+}
+
+h3 {
+  margin-bottom: 7px;
+  font-size: 1rem;
+}
+
+.state-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.state-summary span {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.status-pill {
+  color: #1c5e35;
+  font-weight: 800;
+}
+
+.status-pill.off {
+  color: #9b2d2a;
+}
+
+.workspace-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 360px) 1fr;
+  gap: 18px;
+  align-items: stretch;
+}
+
+.panel,
+.map-panel,
+.law-effects,
+.derivation {
+  border: 1px solid rgba(216, 222, 231, 0.9);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: var(--shadow);
+}
+
+.controls-panel,
+.map-panel,
+.law-effects,
+.derivation {
+  padding: 18px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.solve-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 18px;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+select,
+input[type="range"] {
+  width: 100%;
+}
+
+select {
+  min-height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 700;
+  padding: 8px 10px;
+}
+
+.slider-stack {
+  display: grid;
+  gap: 15px;
+}
+
+.variable-control {
+  display: grid;
+  gap: 7px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.variable-control:last-child {
+  border-bottom: 0;
+}
+
+.control-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 0.91rem;
+}
+
+.control-top b,
+.control-top output {
+  color: var(--ink);
+}
+
+input[type="range"] {
+  accent-color: var(--ideal);
+}
+
+.pressure input {
+  accent-color: var(--pressure);
+}
+
+.volume input {
+  accent-color: var(--volume);
+}
+
+.amount input {
+  accent-color: var(--amount);
+}
+
+.temperature input {
+  accent-color: var(--temperature);
+}
+
+input:disabled {
+  opacity: 0.48;
+}
+
+.calculation-box {
+  margin-top: 18px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f6f8fb;
+}
+
+.mini-title {
+  margin-bottom: 6px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+#substitutionText,
+#resultText {
+  margin-bottom: 4px;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.95rem;
+}
+
+.law-map {
+  position: relative;
+  min-height: 570px;
+}
+
+.connector-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.connector {
+  stroke-width: 1.3;
+  stroke-dasharray: 4 4;
+  opacity: 0.72;
+}
+
+.connector.pressure {
+  stroke: var(--pressure);
+}
+
+.connector.volume {
+  stroke: var(--volume);
+}
+
+.connector.temperature {
+  stroke: var(--temperature);
+}
+
+.connector.amount {
+  stroke: var(--amount);
+}
+
+.law-node {
+  position: absolute;
+  width: min(250px, 35%);
+  padding: 14px;
+  border: 2px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: 0 8px 22px rgba(32, 45, 61, 0.08);
+}
+
+.law-node p {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.boyle {
+  top: 2%;
+  left: 2%;
+  border-color: rgba(195, 66, 63, 0.38);
+}
+
+.charles {
+  top: 2%;
+  right: 2%;
+  border-color: rgba(36, 123, 123, 0.38);
+}
+
+.ideal {
+  top: 50%;
+  left: 50%;
+  width: min(300px, 42%);
+  transform: translate(-50%, -50%);
+  border-color: rgba(38, 50, 56, 0.48);
+  background: #fffdf8;
+}
+
+.gay {
+  bottom: 2%;
+  left: 2%;
+  border-color: rgba(216, 135, 40, 0.42);
+}
+
+.avogadro {
+  right: 2%;
+  bottom: 2%;
+  border-color: rgba(77, 102, 196, 0.4);
+}
+
+.law-tag {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: #fff;
+  border-radius: 999px;
+  padding: 3px 9px;
+  font-size: 0.76rem;
+  font-weight: 900;
+}
+
+.law-tag.pressure {
+  background: var(--pressure);
+}
+
+.law-tag.volume {
+  background: var(--volume);
+}
+
+.law-tag.temperature {
+  background: var(--temperature);
+}
+
+.law-tag.amount {
+  background: var(--amount);
+}
+
+.law-tag.ideal {
+  background: var(--ideal);
+}
+
+.equation {
+  margin-bottom: 7px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.45rem, 2.6vw, 2.15rem);
+  font-weight: 800;
+  line-height: 1.08;
+}
+
+.p-token,
+.v-token,
+.n-token,
+.t-token {
+  font-weight: 900;
+}
+
+.p-token {
+  color: var(--pressure);
+}
+
+.v-token {
+  color: var(--volume);
+}
+
+.n-token {
+  color: var(--amount);
+}
+
+.t-token {
+  color: var(--temperature);
+}
+
+.law-effects,
+.derivation {
+  margin-top: 18px;
+}
+
+.factor-control {
+  display: grid;
+  grid-template-columns: minmax(180px, 230px) 1fr;
+  gap: 18px;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.factor-control span {
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.factor-control strong {
+  color: var(--ink);
+}
+
+.effect-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.effect-card,
+.step-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  padding: 14px;
+}
+
+.effect-card p:last-child,
+.step-card p:last-child {
+  margin-bottom: 0;
+}
+
+.math-line {
+  color: var(--muted);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.1rem;
+}
+
+.boyle-effect {
+  border-top: 5px solid var(--pressure);
+}
+
+.charles-effect {
+  border-top: 5px solid var(--volume);
+}
+
+.gay-effect {
+  border-top: 5px solid var(--temperature);
+}
+
+.avogadro-effect {
+  border-top: 5px solid var(--amount);
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.step-card {
+  position: relative;
+  min-height: 158px;
+  padding-top: 48px;
+}
+
+.step-card span:first-child {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--ink);
+  color: #fff;
+  font-weight: 900;
+}
+
+.combined {
+  background: #f8fbfb;
+}
+
+.final-step {
+  background: #fff8ec;
+  border-color: rgba(216, 135, 40, 0.48);
+}
+
+@media (max-width: 960px) {
+  .intro,
+  .workspace-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .state-summary {
+    justify-content: start;
+  }
+
+  .law-map {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    min-height: 0;
+  }
+
+  .connector-layer {
+    display: none;
+  }
+
+  .law-node,
+  .ideal {
+    position: static;
+    width: auto;
+    transform: none;
+  }
+
+  .ideal {
+    grid-column: 1 / -1;
+    order: -1;
+  }
+
+  .effect-grid,
+  .steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .app-shell {
+    width: min(100% - 20px, 1180px);
+    padding-top: 18px;
+  }
+
+  .controls-panel,
+  .map-panel,
+  .law-effects,
+  .derivation {
+    padding: 14px;
+  }
+
+  .section-heading,
+  .factor-control,
+  .solve-row,
+  .control-top {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .law-map,
+  .effect-grid,
+  .steps {
+    grid-template-columns: 1fr;
+  }
+
+  .step-card {
+    min-height: 0;
+  }
+}
