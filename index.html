@@ -94,7 +94,11 @@
                     inputmode="decimal"
                     aria-label="Pressure in atmospheres"
                   />
-                  <span>atm</span>
+                  <select id="PUnit" aria-label="Pressure unit">
+                    <option value="atm">atm</option>
+                    <option value="torr">torr</option>
+                    <option value="kPa">kPa</option>
+                  </select>
                 </span>
               </span>
               <input id="PInput" type="range" min="0.2" max="6" value="1" step="0.01" />
@@ -127,17 +131,17 @@
                   <input
                     id="nNumber"
                     type="number"
-                    min="0.1"
+                    min="0.0001"
                     max="5"
                     value="1"
-                    step="0.01"
+                    step="0.0001"
                     inputmode="decimal"
                     aria-label="Amount in moles"
                   />
                   <span>mol</span>
                 </span>
               </span>
-              <input id="nInput" type="range" min="0.1" max="5" value="1" step="0.01" />
+              <input id="nInput" type="range" min="0.0001" max="5" value="1" step="0.0001" />
             </label>
 
             <label class="variable-control temperature">
@@ -154,11 +158,29 @@
                     inputmode="decimal"
                     aria-label="Temperature in kelvin"
                   />
-                  <span>K</span>
+                  <select id="TUnit" aria-label="Temperature unit">
+                    <option value="K">K</option>
+                    <option value="C">C</option>
+                  </select>
                 </span>
               </span>
               <input id="TInput" type="range" min="150" max="650" value="298.15" step="0.01" />
             </label>
+          </div>
+
+          <div class="molar-mass-box">
+            <div class="box-heading">
+              <p class="mini-title">Molar Mass</p>
+              <button id="loadSample" type="button">Use sample problem</button>
+            </div>
+            <label class="mass-row" for="massInput">
+              <span>Mass of gas</span>
+              <span class="value-entry">
+                <input id="massInput" type="number" min="0" value="0.0494" step="0.0001" inputmode="decimal" />
+                <span>g</span>
+              </span>
+            </label>
+            <p id="molarMassText">M = 0.05 g / 1.00 mol = 0.05 g/mol</p>
           </div>
 
           <div class="calculation-box">
