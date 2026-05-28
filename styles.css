@@ -149,7 +149,8 @@ h3 {
 }
 
 select,
-input[type="range"] {
+input[type="range"],
+input[type="number"] {
   width: 100%;
 }
 
@@ -182,6 +183,7 @@ select {
 
 .control-top {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   gap: 10px;
   color: var(--muted);
@@ -189,8 +191,27 @@ select {
 }
 
 .control-top b,
-.control-top output {
+.value-entry input {
   color: var(--ink);
+}
+
+.value-entry {
+  display: inline-grid;
+  grid-template-columns: minmax(78px, 98px) auto;
+  gap: 7px;
+  align-items: center;
+  justify-content: end;
+}
+
+.value-entry input {
+  min-height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  font: inherit;
+  font-weight: 750;
+  padding: 6px 8px;
+  text-align: right;
 }
 
 input[type="range"] {
@@ -542,6 +563,10 @@ input:disabled {
   .control-top {
     display: grid;
     grid-template-columns: 1fr;
+  }
+
+  .value-entry {
+    justify-content: start;
   }
 
   .law-map,

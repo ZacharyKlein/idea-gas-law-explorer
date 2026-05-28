@@ -21,18 +21,18 @@ const labels = {
   T: "Temperature",
 };
 
-const inputs = {
+const sliders = {
   P: document.getElementById("PInput"),
   V: document.getElementById("VInput"),
   n: document.getElementById("nInput"),
   T: document.getElementById("TInput"),
 };
 
-const outputs = {
-  P: document.getElementById("POut"),
-  V: document.getElementById("VOut"),
-  n: document.getElementById("nOut"),
-  T: document.getElementById("TOut"),
+const numberInputs = {
+  P: document.getElementById("PNumber"),
+  V: document.getElementById("VNumber"),
+  n: document.getElementById("nNumber"),
+  T: document.getElementById("TNumber"),
 };
 
 const solveFor = document.getElementById("solveFor");
@@ -52,7 +52,7 @@ const formulaText = {
 };
 
 function clampToInputRange(key, value) {
-  const input = inputs[key];
+  const input = numberInputs[key];
   const min = Number(input.min);
   const max = Number(input.max);
   return Math.min(max, Math.max(min, value));
@@ -73,18 +73,26 @@ function solveUnknown() {
   }
 
   state[unknown] = clampToInputRange(unknown, value);
-  inputs[unknown].value = state[unknown];
 }
 
 function formatValue(value, digits = 2) {
   return Number(value).toFixed(digits);
 }
 
+function formatControlValue(value) {
+  return String(Number(Number(value).toFixed(4)));
+}
+
 function updateControls() {
   const unknown = solveFor.value;
-  Object.keys(inputs).forEach((key) => {
-    inputs[key].disabled = key === unknown;
-    outputs[key].value = formatValue(state[key]);
+  Object.keys(sliders).forEach((key) => {
+    const isUnknown = key === unknown;
+    sliders[key].disabled = isUnknown;
+    numberInputs[key].disabled = isUnknown;
+    sliders[key].value = state[key];
+    if (isUnknown || document.activeElement !== numberInputs[key]) {
+      numberInputs[key].value = formatControlValue(state[key]);
+    }
   });
 }
 
@@ -96,7 +104,7 @@ function updateBalance() {
 
   pvValue.textContent = formatValue(pv);
   nrtValue.textContent = formatValue(nrt);
-  balanceStatus.textContent = isBalanced ? "Balanced" : "Limited by slider";
+  balanceStatus.textContent = isBalanced ? "Balanced" : "Limited by input range";
   balanceStatus.classList.toggle("off", !isBalanced);
 }
 
@@ -136,9 +144,33 @@ function render() {
   updateEffects();
 }
 
-Object.entries(inputs).forEach(([key, input]) => {
+function updateVariableFromControl(key, control) {
+  if (control.value === "") {
+    return;
+  }
+
+  const nextValue = Number(control.value);
+  if (!Number.isFinite(nextValue)) {
+    return;
+  }
+
+  state[key] = clampToInputRange(key, nextValue);
+  render();
+}
+
+Object.entries(sliders).forEach(([key, input]) => {
   input.addEventListener("input", () => {
-    state[key] = Number(input.value);
+    updateVariableFromControl(key, input);
+  });
+});
+
+Object.entries(numberInputs).forEach(([key, input]) => {
+  input.addEventListener("input", () => {
+    updateVariableFromControl(key, input);
+  });
+
+  input.addEventListener("change", () => {
+    input.value = formatControlValue(state[key]);
     render();
   });
 });
